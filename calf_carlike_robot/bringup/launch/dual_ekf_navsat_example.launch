@@ -1,0 +1,31 @@
+
+
+<launch>
+
+	<arg name="use_sim_time" default="true"/>
+	<node pkg="odom_tf_package" type="gps_sub.py" name="gps_init"/>
+
+ <include file="$(find bringup)/launch/imu/run_imu.launch">
+  </include>
+
+    <!--<node pkg="tf" type="static_transform_publisher"
+name="odom_to_gps_link"
+args="0 0 0 0 0 0 1 /odom /gps_odom  100" />-->
+
+
+  <rosparam command="load" file="$(find bringup)/param/ekf/dual_ekf_navsat_example.yaml" />
+
+  <!--<node pkg="robot_localization" type="ekf_localization_node" name="ekf_se_odom" clear_params="true"/>-->
+
+  <node pkg="robot_localization" type="ekf_localization_node" name="ekf_se_map" clear_params="true" output="screen">
+    <remap from="odometry/filtered" to="gogogo"/>
+  </node>
+
+  <node pkg="robot_localization" type="navsat_transform_node" name="navsat_transform" clear_params="true" output="screen">
+    <!--<remap from="odometry/filtered" to="odometry/filtered_map"/>-->
+      <!--<remap from="imu/data" to="imu_data"/>-->
+      <remap from="odometry/filtered" to="odom"/>
+      <remap from="gps/fix" to="gps_data"/>
+  </node>
+
+</launch>

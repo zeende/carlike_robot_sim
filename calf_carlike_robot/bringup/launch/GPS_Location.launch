@@ -1,0 +1,12 @@
+<launch>
+
+	<node pkg="odom_tf_package" type="imu_sub.py" name="imu_init"/>
+	<node pkg="odom_tf_package" type="gps_sub.py" name="gps_init"/>
+    <node pkg="robot_localization" type="navsat_transform_node" name="navsat_transform_node" clear_params="true">
+    <rosparam command="load" file="$(find robot_localization)/params/navsat_transform_template.yaml" />
+      <remap from="imu/data" to="imu_data"/>
+      <remap from="odometry/filtered" to="odom"/>
+      <remap from="gps/fix" to="gps_data"/>
+      
+  </node>
+</launch>

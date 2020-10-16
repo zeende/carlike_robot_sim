@@ -1,0 +1,33 @@
+<launch>
+	<node pkg="odom_tf_package" type="gps_sub.py" name="gps_init"/>
+
+<arg name="use_sim_time" default="true"/>
+ <include file="$(find bringup)/launch/imu/run_imu.launch">
+  </include>
+
+<node pkg="robot_pose_ekf" type="robot_pose_ekf" name="robot_pose_ekf">
+  <param name="output_frame" value="odom_combined"/>
+  <param name="base_footprint_frame" value="base_footprint"/>
+  <!--<param name="freq" value="10"/>-->
+  <param name="debug" value="true"/>
+  <param name="sensor_timeout" value="1.0"/>  
+  <param name="odom_used" value="true"/>
+  <param name="imu_used" value="true"/>
+  <param name="vo_used" value="true"/>
+  <param name="gps_used" value="false"/>
+  <!--<remap from="imu_data" to="/mobile_base/sensors/imu_data" />-->
+</node>
+
+    <node name="gps_conv" pkg="gps_common" type="utm_odometry_node"> 
+	<remap from="fix" to="vo"/>
+        <remap from="odom" to="gps_data_utm"/>
+        <param name="rot_covariance" value="99999" />
+        <param name="frame_id" value="base_footprint" />
+   	
+    </node>
+
+<node pkg="tf" type="static_transform_publisher"
+name="odom_to_efk"
+args="0 0 0 0 0 0 1  /odom /odom_combined 10" />
+</launch>
+
