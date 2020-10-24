@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <launch>
   <!--<arg name="world_name" default="room2" />-->
-  <arg name="world_name" default="zeendi" />
+  <arg name="world_name" default="yjy" />
   <arg name="gui" default="true" />
   <arg name="run_camera" default="false"/>
   <arg name="use_sim_time" default="true"/>
