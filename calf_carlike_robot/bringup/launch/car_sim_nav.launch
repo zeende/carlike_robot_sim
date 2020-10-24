@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<launch>
+  <!--<arg name="world_name" default="room2" />-->
+  <arg name="world_name" default="yjy" />
+  <arg name="gui" default="true" />
+  <arg name="run_camera" default="false"/>
+  <arg name="use_sim_time" default="true"/>
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(find bringup)/worlds/$(arg world_name).world"/>
+    <arg name="gui" value="$(arg gui)"/>
+  </include>
+
+  <node pkg="racecar_control" type="nav_sim.py" name="nav_sim_contral" />
+
+  <param name="robot_description" command="$(find xacro)/xacro '$(find racecar_description)/urdf/racecar.xacro'" />
+
+  <node name="racecar_spawn" pkg="gazebo_ros" type="spawn_model" output="screen" args="-urdf -param robot_description -model racecar -z 0.05" />
+  <include file="$(find racecar_control)/launch/racecar_control.launch" ns="/"/>
+
+
+  <node name="rviz" pkg="rviz" type="rviz"  />
+	<node name="map_server" pkg="map_server" type="map_server" args="$(find bringup)/map/mymap.yaml" output="screen">
+                <param name="frame_id" value="map"/>
+    </node>
+    
+    <node pkg="tf" type="static_transform_publisher"
+        name="odom_to_map"
+        args="0 0 0 0 0 0 1  /odom /map 10" />
+
+       
+</launch>

@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<launch>
+<arg name="use_sim_time" default="true"/>
+<node pkg="odom_tf_package" type="imu_sub.py" name="imu_init"/>
+<!-- IMU relay from starrobot_msgs/Imu to sensor_msgs/Imu -->
+<node pkg="imu_calib" type="apply_calib" name="apply_calib" output="screen" respawn="false">
+<param name="calib_file" value="$(find bringup)/param/imu/imu_calib.yaml" />
+<param name="calibrate_gyros" value="true" />
+<remap from="corrected" to="imu/data___"/>
+ </node>
+</launch>

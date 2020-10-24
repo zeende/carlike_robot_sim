@@ -1,0 +1,5 @@
+<launch>
+<node pkg="imu_calib" type="do_calib" name="do_calib" output="screen" respawn="false">
+<param name="output_file" value="/home/max/catkin_ws/src/calf_carlike_robot/bringup/param/imu/imu_calib.yaml" />
+</node>
+</launch>

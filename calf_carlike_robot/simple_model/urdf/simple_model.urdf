@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
+     Commit Version: 1.5.1-0-g916b5db  Build Version: 1.5.7152.31018
+     For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
+<robot
+  name="simple_model">
+  <link
+    name="base_link">
+    <inertial>
+      <origin
+        xyz="-0.0111716212614272 0.000138530530096322 -0.0208455424750044"
+        rpy="0 0 0" />
+      <mass
+        value="2.19564697246884" />
+      <inertia
+        ixx="0.0013018152853814"
+        ixy="-2.61288078472396E-06"
+        ixz="-1.69009576248431E-07"
+        iyy="0.00326324453797515"
+        iyz="-6.73295176325135E-08"
+        izz="0.00405002027200634" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://simple_model/meshes/base_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://simple_model/meshes/base_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <link
+    name="Lidar_Link">
+    <inertial>
+      <origin
+        xyz="-3.46944695195361E-18 -1.27802362224142E-19 -0.0299080267558528"
+        rpy="0 0 0" />
+      <mass
+        value="0.117417025427919" />
+      <inertia
+        ixx="5.34494423948965E-05"
+        ixy="-2.89058265056656E-21"
+        ixz="-1.41807793381556E-21"
+        iyy="5.34494423948965E-05"
+        iyz="9.86385887115142E-22"
+        izz="3.68106301707342E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://simple_model/meshes/Lidar_Link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://simple_model/meshes/Lidar_Link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="Lidar_Link"
+    type="fixed">
+    <origin
+      xyz="0 0 0.055"
+      rpy="0 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="Lidar_Link" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+
+   <gazebo reference="base_link"> 
+     <material>Gazebo/Yellow </material>
+    </gazebo>
+
+    <gazebo reference="Lidar_Link"> 
+     <material>Gazebo/Blue </material>
+    </gazebo>
+
+   <gazebo reference="Lidar_Link">
+    <sensor type="ray" name="head_hokuyo_sensor">
+      <pose>0 0 0 0 0 0</pose>
+      <visualize>false</visualize>
+      <update_rate>40</update_rate>
+      <ray>
+        <scan>
+          <horizontal>
+            <samples>720</samples>
+            <resolution>1</resolution>
+            <min_angle>-1.570796</min_angle>
+            <max_angle>1.570796</max_angle>
+          </horizontal>
+        </scan>
+        <range>
+          <min>0.10</min>
+          <max>30.0</max>
+          <resolution>0.01</resolution>
+        </range>
+        <noise>
+          <type>gaussian</type>
+
+          <mean>0.0</mean>
+          <stddev>0.01</stddev>
+        </noise>
+      </ray>
+      <plugin name="gazebo_ros_head_hokuyo_controller" filename="libgazebo_ros_laser.so">
+        <topicName>/laser/scan</topicName>
+        <frameName>Lidar_Link</frameName>
+      </plugin>
+     </sensor>
+    </gazebo>
+
+</robot>
