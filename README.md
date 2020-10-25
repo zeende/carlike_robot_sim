@@ -32,5 +32,6 @@ cd
 cd catkin_ws  
 catkin_make  
 
-
+### Remenber  
+sudo chmod -R 777 carlike_robot_sim/
 
