@@ -26,12 +26,13 @@ sudo apt-get install ros-kinetic-teb-local-planner
 ### 2、编译  
 将代码放到自己的工作空间里的src编译（应该不会报错）;  
 
+# Remenber  
+sudo chmod -R 777 carlike_robot_sim/
 
 终端输入:  
 cd  
 cd catkin_ws  
 catkin_make  
 
-### Remenber  
-sudo chmod -R 777 carlike_robot_sim/
+
 
